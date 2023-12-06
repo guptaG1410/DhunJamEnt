@@ -82,7 +82,7 @@ const Login = () => {
 
             {errors?.password && (
               <p className="mt-2 mb-2 text-sm text-red-500">
-                * {errors?.password?.message}
+                * {errors?.password?.message }
               </p>
             )}
           </div>
