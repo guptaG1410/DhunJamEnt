@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOffSharp, IoEyeSharp } from "react-icons/io5";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -12,7 +14,25 @@ const Login = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => {
+    try {
+      if (data?.password.length < 8) {
+        toast.error("Please enter a valid password");
+        return;
+      }
+      const res = await axios.post(
+        "https://stg.dhunjam.in/account/admin/login",
+        data
+      );
+      if (res?.data?.status === 200) {
+        toast.success("Login successfull");
+        localStorage.setItem("authData", JSON.stringify(res?.data?.data));
+        navigate("/admin");
+      }
+    } catch (error) {
+      toast.error("Failed to login");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen text-white bg-black">
@@ -82,7 +102,7 @@ const Login = () => {
 
             {errors?.password && (
               <p className="mt-2 mb-2 text-sm text-red-500">
-                * {errors?.password?.message }
+                * {errors?.password?.message}
               </p>
             )}
           </div>
