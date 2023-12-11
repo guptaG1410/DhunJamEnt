@@ -26,8 +26,9 @@ const Login = () => {
       );
       if (res?.data?.status === 200) {
         toast.success("Login successfull");
-        localStorage.setItem("authData", JSON.stringify(res?.data?.data));
-        navigate("/admin");
+        // console.log(res.data);
+        localStorage.setItem("userData", JSON.stringify(res?.data?.data));
+        navigate("/");
       }
     } catch (error) {
       toast.error("Failed to login");

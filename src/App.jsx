@@ -1,18 +1,21 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import Admin from "./pages/Admin";
 
 const App = () => {
+  // const [authenticated, setAuthenticated] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("userData");
+    if (!loggedInUser) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <div>
-      {/* <h1>Hello guys!</h1> */}
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </BrowserRouter>
+      <Admin />
     </div>
   );
 };
